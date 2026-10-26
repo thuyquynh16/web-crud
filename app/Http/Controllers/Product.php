@@ -2,84 +2,112 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\cr;
+use App\Models\Product as ProductModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // 1. Hiển thị danh sách sản phẩm
     public function index()
     {
-        //
+        $products = ProductModel::latest()->get();
+
+        return view('product.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // 2. Hiển thị form thêm sản phẩm
     public function create()
     {
-        //
+        return view('product.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // 3. Lưu sản phẩm mới
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $data = $request->only([
+            'name', 'price', 'quantity', 'description'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')
+                ->store('products', 'public');
+        }
+
+        ProductModel::create($data);
+
+        return redirect()->route('products.index')
+            ->with('success', 'Thêm sản phẩm thành công!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\cr  $cr
-     * @return \Illuminate\Http\Response
-     */
-    public function show(cr $cr)
+    // 4. Xem chi tiết sản phẩm
+    public function show($id)
     {
-        //
+        $product = ProductModel::findOrFail($id);
+
+        return view('product.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\cr  $cr
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(cr $cr)
+    // 5. Hiển thị form sửa sản phẩm
+    public function edit($id)
     {
-        //
+        $product = ProductModel::findOrFail($id);
+
+        return view('product.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\cr  $cr
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, cr $cr)
+    // 6. Cập nhật sản phẩm
+    public function update(Request $request, $id)
     {
-        //
+        $product = ProductModel::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $data = $request->only([
+            'name', 'price', 'quantity', 'description'
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            $data['image'] = $request->file('image')
+                ->store('products', 'public');
+        }
+
+        $product->update($data);
+
+        return redirect()->route('products.index')
+            ->with('success', 'Cập nhật sản phẩm thành công!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\cr  $cr
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(cr $cr)
+    // 7. Xóa sản phẩm
+    public function destroy($id)
     {
-        //
+        $product = ProductModel::findOrFail($id);
+
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')
+            ->with('success', 'Xóa sản phẩm thành công!');
     }
 }
