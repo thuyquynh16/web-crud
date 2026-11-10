@@ -1,0 +1,46 @@
+
+body {
+    background-color: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background: #212529;
+}
+
+.page-title {
+    font-weight: 700;
+    color: #212529;
+}
+
+.main-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.product-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.price {
+    color: #198754;
+    font-weight: 600;
+}
+
+.action-buttons {
+    white-space: nowrap;
+}

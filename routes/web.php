@@ -6,9 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Product;
 
 Route::get('/', function () {
-    return redirect()->route('users.index');
-});
-
+    return view('welcome');
+})->name('home');
 // QUẢN LÝ USER
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('index');

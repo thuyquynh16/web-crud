@@ -6,58 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Quản lý sản phẩm</title>
+
+    <!-- Bootstrap CSS -->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: Arial, sans-serif;
-        }
-
-        .navbar {
-            background: #212529;
-        }
-
-        .page-title {
-            font-weight: 700;
-            color: #212529;
-        }
-
-        .main-card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .product-image {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-
-        .table th {
-            background-color: #f8f9fa;
-            white-space: nowrap;
-        }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .price {
-            color: #198754;
-            font-weight: 600;
-        }
-
-        .action-buttons {
-            white-space: nowrap;
-        }
-    </style>
+    <!-- CSS riêng -->
+    <link rel="stylesheet" href="{{ asset('css/styleProduct.css') }}">
 </head>
 
 <body>
@@ -73,21 +30,28 @@
 
     <div class="container py-5">
 
-        <!-- Tiêu đề -->
+        <!-- Tiêu đề và nút chức năng -->
         <div class="d-flex flex-wrap justify-content-between
                     align-items-center gap-3 mb-4">
 
             <div>
                 <h2 class="page-title mb-1">Quản lý sản phẩm</h2>
+
                 <p class="text-secondary mb-0">
                     Danh sách và thông tin sản phẩm
                 </p>
             </div>
 
-            <a href="{{ route('products.create') }}"
-               class="btn btn-primary">
-                + Thêm sản phẩm
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                    ← Trang chủ
+                </a>
+
+                <a href="{{ route('products.create') }}" class="btn btn-primary">
+                    + Thêm sản phẩm
+                </a>
+            </div>
+
         </div>
 
         <!-- Thông báo thành công -->
@@ -176,9 +140,14 @@
                                     <td class="text-center action-buttons">
 
                                         <a href="{{ route('products.show', $product->id) }}"
-                                            class="btn btn-sm btn-secondary">Chi tiết</a>
+                                           class="btn btn-sm btn-secondary">
+                                            Chi tiết
+                                        </a>
+
                                         <a href="{{ route('products.edit', $product->id) }}"
-                                            class="btn btn-sm btn-primary">Sửa</a>
+                                           class="btn btn-sm btn-primary">
+                                            Sửa
+                                        </a>
 
                                         <form
                                             action="{{ route('products.destroy', $product->id) }}"
@@ -201,8 +170,7 @@
                             @empty
 
                                 <tr>
-                                    <td colspan="6"
-                                        class="text-center py-5">
+                                    <td colspan="6" class="text-center py-5">
 
                                         <h5 class="text-secondary">
                                             Chưa có sản phẩm nào
@@ -216,6 +184,7 @@
                                            class="btn btn-primary">
                                             + Thêm sản phẩm
                                         </a>
+
                                     </td>
                                 </tr>
 

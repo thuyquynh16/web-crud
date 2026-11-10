@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý người dùng</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styleUser.css') }}">
 </head>
 <body>
 <div class="page">
@@ -14,9 +14,15 @@
             <h1>Quản lý người dùng</h1>
             <p class="subtitle">Quản lý thông tin tài khoản trong hệ thống.</p>
         </div>
-        <a href="{{ route('users.add') }}" class="btn btn-primary">
-            + Thêm người dùng
-        </a>
+        <div class="d-flex gap-2">
+    <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+        ← Trang chủ
+    </a>
+
+    <a href="{{ route('users.add') }}" class="btn btn-primary">
+        + Thêm người dùng
+    </a>
+</div>
     </div>
 
     @if (session('success'))
